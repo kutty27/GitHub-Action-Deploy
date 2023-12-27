@@ -19,3 +19,5 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: mvn -B package --file pom.xml
+      - name: Deploy to Tomcat server
+        run: curl -v -u admin:admin -T /home/runner/work/GitHub-Action-Deploy/GitHub-Action-Deploy/target/WebApplication.war 'http://localhost:9090/manager/html'
