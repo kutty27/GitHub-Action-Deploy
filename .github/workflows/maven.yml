@@ -1,24 +1,30 @@
 name: Java CI with Maven
-'on':
+
+on:
   push:
     branches:
       - main
   pull_request:
     branches:
       - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: temurin
           cache: maven
+
       - name: Build with Maven
         run: mvn -B package --file pom.xml
+
       - name: Deploy to Tomcat server
-        #run: curl -v -u admin:admin -T /home/runner/work/GitHub-Action-Deploy/GitHub-Action-Deploy/target/WebApplication.war 'http://localhost:9090'
-        run: curl -T /home/runner/work/GitHub-Action-Deploy/GitHub-Action-Deploy/target/WebApplication.war http://admin:admin@localhost:9090/manager/text/deploy?path=/WebApplication&update=true
+        run: |
+          curl -v -u admin:admin -T /home/runner/work/GitHub-Action-Deploy/GitHub-Action-Deploy/target/WebApplication.war \
+          'http://localhost:9090/manager/text/deploy?path=/WebApplication&update=true'
